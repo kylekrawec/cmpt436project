@@ -1,0 +1,16 @@
+CMPT436 Project Testing Plan
+----------------------------------------------------------
+
+Goal: Test the performance of a SOAP vs. REST webservice.
+
+JMeter: test request rates, different data types, and volume. Send lots of small, medium, and large volumne requests of differing data types.
+
+Create a small example of a distributed system such as an ecommerce site. Use docker to create different services and run those services to perform experiments on them.
+
+Test failed requests or timeouts and how SOAP vs. REST performance changes.
+
+
+Strategy
+----------------------------------------------------------
+Develop and test each microservice to type on SOAP and REST, for example ordering a product or viewing product catalog, then test. In this way if you run out of time you wont have everything developed for one service type (REST or SOAP) without the other having being done.
+
