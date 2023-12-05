@@ -1,36 +1,48 @@
 package com.example.productcatalog.service;
 
 import com.example.productcatalog.model.Product;
-import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ProductService {
-    private final HashMap<Long, Product> products = new HashMap<>();
-    private final AtomicLong counter = new AtomicLong();
+    private final String DATASERVICE_URL = "http://localhost:8080";
+//    private final String DATASERVICE_URL = System.getenv("SPRING_DATASOURCE_URL");
 
-    public Product findById(Long id) {
-        return products.get(id);
+    private final RestTemplate restTemplate;
+
+    public ProductService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
-    public List<Product> getProducts() {
-        return products.values().stream().toList();
+    public Product findById(int id) {
+        return restTemplate.getForObject(DATASERVICE_URL + "/products/get/" + id, Product.class);
     }
 
-    public void addProduct(Product product) {
-        long id = counter.getAndIncrement();
-        product.setId(id);
-        products.put(id, product);
+    public Iterable<Product> getProducts() {
+        ResponseEntity<Iterable<Product>> response = restTemplate.exchange(
+                DATASERVICE_URL + "/products/get",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {
+                });
+        return response.getBody();
     }
 
-    public boolean updateProduct(Product product) {
-        boolean productExists = products.containsKey(product.getId());
-        if (productExists) {
-            products.put(product.getId(), product);
-        }
-        return productExists;
+    public void createProduct(Product product) {
+        restTemplate.postForObject(DATASERVICE_URL + "/products/create", product, String.class);
+    }
+
+    public void updateProduct(int id, Product product) {
+        restTemplate.put(DATASERVICE_URL + "/products/update/" + id, product, String.class);
+    }
+
+    public void deleteProduct(int id) {
+        restTemplate.delete(DATASERVICE_URL + "/products/delete/" + id, String.class);
     }
 }

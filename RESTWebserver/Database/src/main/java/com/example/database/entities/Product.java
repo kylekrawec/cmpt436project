@@ -1,18 +1,19 @@
-package com.example.productcatalog.model;
+package com.example.database.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private float price;
     private String description;
     private String imageEncoding;
-
-    public Product(String name, float price, String description, String imageEncoding) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.imageEncoding = imageEncoding;
-    }
 
     public int getId() {
         return id;
