@@ -27,10 +27,9 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/webstore
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=12345
+      - SERVER_PORT=8080
     depends_on:
       - mysql-db
-    networks:
-      - webstore-network
 
   productcatalog-service:
     build:
@@ -39,11 +38,12 @@ services:
     image: productcatalog-service:1.0.0
     container_name: productcatalog-service
     ports:
-      - "8081:80"
+      - "8081:8081"
     environment:
-      - SPRING_DATASOURCE_URL=http://database-service:8080
-    networks:
-      - webstore-network
+      - DATASERVICE_URL=http://database-service:8080
+      - SERVER_PORT=8081
+    depends_on:
+      - database-service
 
 volumes:
   mydb:
