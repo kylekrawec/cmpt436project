@@ -1,9 +1,11 @@
 FROM openjdk:21
 
-EXPOSE 80
+VOLUME /tmp
 
-ENV NAMESPACE_URI "http://cmpt436/soap-web-service/productcatalog"
+EXPOSE 8080
 
-ADD target/productcatalog-1.0.0-SERVICE.jar app.jar
+ARG JAR_FILE=target/ProductCatalog-0.0.1-SNAPSHOT.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ADD ${JAR_FILE} myapp.jar
+
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/myapp.jar"]

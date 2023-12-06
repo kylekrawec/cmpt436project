@@ -1,7 +1,11 @@
 FROM openjdk:21
 
-EXPOSE 80
+VOLUME /tmp
 
-ADD target/ProductCatalog-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ARG JAR_FILE=target/ProductCatalog-0.0.1-SNAPSHOT.jar
+
+ADD ${JAR_FILE} myapp.jar
+
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/myapp.jar"]

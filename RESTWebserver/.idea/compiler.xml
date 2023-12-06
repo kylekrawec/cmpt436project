@@ -8,10 +8,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Database" />
         <module name="ProductCatalog" />
-        <module name="OrderProcessing" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="OrderProcessing" target="21" />
       <module name="RESTWebserver" target="21" />
     </bytecodeTargetLevel>
   </component>

@@ -1,11 +1,51 @@
 version: '3'
 
 services:
-  ProductCatalog:
+  mysql-db:
+    image: mysql:5.7
+    restart: always
+    container_name: soap-mysql-db
+    environment:
+      MYSQL_DATABASE: 'webstore'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: '12345'
+      MYSQL_ROOT_PASSWORD: '12345'
+    ports:
+      - '3306:3306'
+    volumes:
+      - mydb:/var/lib/mysql
+
+  database-service:
+    build:
+      context: ./Database
+      dockerfile: Dockerfile
+    image: database-service:1.0.0
+    container_name: database-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/webstore
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=12345
+      - NAMESPACE_URI=http://cmpt436/soap-web-service/products
+    depends_on:
+      - mysql-db
+#    networks:
+#      - soap-webstore-network
+
+  productcatalog-service:
     build:
       context: ./ProductCatalog
       dockerfile: Dockerfile
-    image: productcatalog:1.0.0
-    container_name: productcatalog
+    image: productcatalog-service:1.0.0
+    container_name: productcatalog-service
     ports:
-      - "8080:80"
+      - "8081:80"
+    environment:
+      - DATABASE_SERVICE_URL=http://database-service:8080
+      - NAMESPACE_URI=http://cmpt436/soap-web-service/products
+#    networks:
+#      - soap-webstore-network
+
+volumes:
+  mydb:

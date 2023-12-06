@@ -4,7 +4,7 @@ services:
   mysql-db:
     image: mysql:5.7
     restart: always
-    container_name: mysql-db
+    container_name: rest-mysql-db
     environment:
       MYSQL_DATABASE: 'webstore'
       MYSQL_USER: 'admin'
@@ -47,13 +47,3 @@ services:
 
 volumes:
   mydb:
-
-
-#  OrderProcessing:
-#    build:
-#      context: ./OrderProcessing
-#      dockerfile: Dockerfile
-#    image: orderprocessing:1.0.0
-#    container_name: orderprocessing
-#    ports:
-#      - "8081:80"
