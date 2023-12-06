@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  mysql-db:
+  soap-mysql-db:
     image: mysql:5.7
     restart: always
     container_name: soap-mysql-db
@@ -13,37 +13,37 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - mydb:/var/lib/mysql
+      - soap-mydb:/var/lib/mysql
 
-  database-service:
+  soap-database-service:
     build:
       context: ./Database
       dockerfile: Dockerfile
-    image: database-service:1.0.0
-    container_name: database-service
+    image: soap-database-service:1.0.0
+    container_name: soap-database-service
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/webstore
+      - SPRING_DATASOURCE_URL=jdbc:mysql://soap-mysql-db:3306/webstore
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=12345
       - NAMESPACE_URI=http://cmpt436/soap-web-service/products
       - SERVER_PORT=8080
     depends_on:
-      - mysql-db
+      - soap-mysql-db
 
-  productcatalog-service:
+  soap-productcatalog-service:
     build:
       context: ./ProductCatalog
       dockerfile: Dockerfile
-    image: productcatalog-service:1.0.0
-    container_name: productcatalog-service
+    image: soap-productcatalog-service:1.0.0
+    container_name: soap-productcatalog-service
     ports:
       - "8081:8081"
     environment:
-      - DATA_SERVICE_URL=http://database-service:8080/products
+      - DATA_SERVICE_URL=http://soap-database-service:8080/products
       - NAMESPACE_URI=http://cmpt436/soap-web-service/products
       - SERVER_PORT=8081
 
 volumes:
-  mydb:
+  soap-mydb:
