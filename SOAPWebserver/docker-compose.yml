@@ -28,10 +28,9 @@ services:
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=12345
       - NAMESPACE_URI=http://cmpt436/soap-web-service/products
+      - SERVER_PORT=8080
     depends_on:
       - mysql-db
-#    networks:
-#      - soap-webstore-network
 
   productcatalog-service:
     build:
@@ -40,12 +39,11 @@ services:
     image: productcatalog-service:1.0.0
     container_name: productcatalog-service
     ports:
-      - "8081:80"
+      - "8081:8081"
     environment:
-      - DATABASE_SERVICE_URL=http://database-service:8080
+      - DATA_SERVICE_URL=http://database-service:8080/products
       - NAMESPACE_URI=http://cmpt436/soap-web-service/products
-#    networks:
-#      - soap-webstore-network
+      - SERVER_PORT=8081
 
 volumes:
   mydb:

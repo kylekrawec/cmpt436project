@@ -1,5 +1,6 @@
 package com.example.products;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +18,8 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 public class ProductCatalogConfig extends WsConfigurerAdapter {
-    //    private static final String NAMESPACE_URI = System.getenv("NAMESPACE_URI");
-    private static final String NAMESPACE_URI = "http://cmpt436/soap-web-service/products";
+    @Value("${namespace.uri}")
+    private String NAMESPACE_URI;
 
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {

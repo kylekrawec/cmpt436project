@@ -4,15 +4,12 @@ import cmpt436.soap_web_service.products.*;
 
 import com.example.products.service.ProductService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.*;
-
-import java.util.Optional;
 
 @Endpoint
 public class ProductEndpoint {
-//    private static final String NAMESPACE_URI = System.getenv("NAMESPACE_URI");
-    private static final String NAMESPACE_URI = "http://cmpt436/soap-web-service/products";
+    private final String NAMESPACE_URI = "http://cmpt436/soap-web-service/products";
+
     private final ProductService productService;
 
     public ProductEndpoint(ProductService productService) {

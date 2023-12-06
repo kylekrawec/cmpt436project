@@ -18,7 +18,6 @@ import java.util.Optional;
 @Endpoint
 public class DatabaseEndpoint {
     private static final String NAMESPACE_URI = "http://cmpt436/soap-web-service/products";
-//    private static final String NAMESPACE_URI = System.getenv("NAMESPACE_URI");
 
     private final ProductRepository productRepository;
 
