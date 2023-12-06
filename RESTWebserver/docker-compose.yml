@@ -42,8 +42,6 @@ services:
     environment:
       - DATASERVICE_URL=http://database-service:8080
       - SERVER_PORT=8081
-    depends_on:
-      - database-service
 
 volumes:
   mydb:
