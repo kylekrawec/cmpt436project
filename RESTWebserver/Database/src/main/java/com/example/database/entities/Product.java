@@ -1,9 +1,6 @@
 package com.example.database.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Product {
@@ -12,7 +9,13 @@ public class Product {
     private int id;
     private String name;
     private float price;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Lob
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String imageEncoding;
 
     public int getId() {
